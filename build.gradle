@@ -1,0 +1,52 @@
+description = 'Spring HATEOAS polymorphism repro'
+
+buildscript {
+	repositories {
+		mavenCentral()
+		maven {
+			url 'https://plugins.gradle.org/m2/'
+		}
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.2.RELEASE")
+		classpath("io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+apply plugin: 'eclipse'
+
+war {
+	baseName = 'spring-hateoas-polymorphism'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+	providedRuntime
+}
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	compile("org.springframework.boot:spring-boot-starter-hateoas")
+	compile("org.springframework.boot:spring-boot-starter-web")
+	compile("org.atteo:evo-inflector:1.2.1")
+
+	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+}
+
+eclipse {
+	classpath {
+		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+	}
+}
